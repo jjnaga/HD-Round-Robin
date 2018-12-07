@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { AppContext } from './AppContext';
+import posed, { PoseGroup } from 'react-pose';
 
 import CloseButton from './CloseButton';
 
@@ -11,24 +12,26 @@ class NameContainer extends Component {
 
         return (
             <Container>
-                {names.map((name, index) => {
-                    if (index === 0) {
-                        return (
-                            <ExpandedName key={index}>
-                                <span>Who's Next?</span>
-                                <h1>{name}</h1>
-                                <CloseButton onClick={() => removeName(index)}>Remove</CloseButton>
-                            </ExpandedName>
-                        );
-                    } else {
-                        return (
-                            <Name key={index}>
-                                <span>{name}</span>
-                                <CloseButton onClick={() => removeName(index)} />
-                            </Name>
-                        );
-                    }
-                })}
+                <PoseGroup>
+                    {names.map((name, index) => {
+                        if (index === 0) {
+                            return (
+                                <ExpandedName key={index}>
+                                    <span>Who's Next?</span>
+                                    <h1>{name}</h1>
+                                    <CloseButton onClick={() => removeName(index)}>Remove</CloseButton>
+                                </ExpandedName>
+                            );
+                        } else {
+                            return (
+                                <Name key={index}>
+                                    <span>{name}</span>
+                                    <CloseButton onClick={() => removeName(index)} />
+                                </Name>
+                            );
+                        }
+                    })}
+                </PoseGroup>
             </Container>
         );
     }
@@ -38,19 +41,29 @@ NameContainer.contextType = AppContext;
 
 export default NameContainer;
 
-const Container = styled.div`
+const Container = styled.ul`
     width: 100%;
-    margin-left: 30px;
     align-self: stretch;
     display: grid;
     grid-template-columns: 1fr;
 
     @media (max-width: 700px) {
-        margin: 0 0 120px;
+        grid-row: 1;
     }
 `;
 
-const Name = styled.div`
+const AnimatedName = posed.li({
+    enter: {
+        y: 0,
+        opacity: 1,
+    },
+    exit: {
+        y: 50,
+        opacity: 0,
+    },
+});
+
+const Name = styled(AnimatedName)`
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -68,7 +81,7 @@ const Name = styled.div`
     }
 `;
 
-const ExpandedName = styled.div`
+const ExpandedName = styled(AnimatedName)`
     display: flex;
     flex-direction: column;
     justify-content: center;

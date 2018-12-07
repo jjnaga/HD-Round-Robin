@@ -31,7 +31,7 @@ export default class Form extends Component {
         return (
             <FormEl onSubmit={this.handleSubmit}>
                 <Graphic />
-                <label>Enter your name:</label>
+                <label>Enter a name:</label>
                 <AddStudent>
                     <input
                         type="text"
@@ -51,6 +51,7 @@ Form.contextType = AppContext;
 
 const AddStudent = styled.div`
     display: flex;
+    align-items: center;
 
     input {
         box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07);
@@ -95,16 +96,12 @@ const FormEl = styled.form`
     flex-direction: column;
     width: 100%;
     align-items: center;
-
-    @media (max-width: 700px) {
-        order: 2;
-    }
+    justify-content: center;
 
     svg {
         max-width: 325px;
         width: 100%;
-        height: 100%;
-        margin-bottom: 50px;
+        margin-bottom: 12px;
     }
 
     label {

@@ -25,11 +25,13 @@ export class AppProvider extends Component {
 
     shiftNames = () => {
         const { names } = this.state;
-        const firstItem = names.shift();
+        if (!(names.length === 0)) {
+            const firstItem = names.shift();
 
-        this.setState({
-            names: [...names, firstItem],
-        });
+            this.setState({
+                names: [...names, firstItem],
+            });
+        }
     };
 
     addName = item => {
